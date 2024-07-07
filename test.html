@@ -1,0 +1,75 @@
+<script src="flickinput.js"></script>
+<meta charset="utf-8">
+<textarea id="output" style="width: 100%;height: 50dvh;font-size: 50px;"></textarea>
+<canvas id="flick" style="border: 1px solid;"></canvas>
+<script>
+    //     const label = [
+    //     [""],
+    //     ["あ","い","う","え","お"],
+    //     ["か","き","く","け","こ"],
+    //     ["さ","し","す","せ","そ"],
+    //     [""],
+    //     [""],
+    //     ["た","ち","つ","て","と"],
+    //     ["な","に","ぬ","ね","の"],
+    //     ["は","ひ","ふ","へ","ほ"],
+    //     [""],
+    //     [""],
+    //     ["ま","み","む","め","も"],
+    //     ["や","(","ゆ",")","よ"],
+    //     ["ら","り","る","れ","ろ"],
+    //     [""],
+    //     [""],
+    //     ["⇄","゛","小","゜",""],
+    //     ["わ","を","ん","ー","～"],
+    //     ["、","。","！","？","…"],
+    //     [""],
+    // ]
+    const label = [
+        [""],
+        [""],
+        ["A","B","C"],
+        ["D","E","F"],
+        [""],
+        [""],
+        ["G","H","I"],
+        ["J","K","L"],
+        ["M","N","O"],
+        [""],
+        [""],
+        ["P","Q","R","S"],
+        ["T","U","V"],
+        ["W","X","Y","Z"],
+        [""],
+        [""],
+        [""],
+        [""],
+        [""],
+        [""],
+        [""],
+    ]
+
+    window.onresize = ()=>{
+        FlickInput(document.querySelector("#flick"),label,Math.min(window.innerWidth,700),Math.min(window.innerHeight*0.4,700));
+    }
+    FlickInput(document.querySelector("#flick"),label,Math.min(window.innerWidth,700),Math.min(window.innerHeight*0.4,700));
+
+    document.querySelector("#flick").addEventListener("flick",(e)=>{
+        console.log("input",e.detail.btnnum,e.detail.label);
+        output.value += e.detail.label;
+    })
+</script>
+<style>
+    * {
+        color-scheme: dark;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    #flick {
+        touch-action: none;
+        position: absolute;
+        transform: translateX(-50%);
+        bottom: 0px;
+        left: 50%;
+    }
+</style>
