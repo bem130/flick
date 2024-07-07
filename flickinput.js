@@ -1,4 +1,17 @@
-function FlickInput(canvas,label,width,height,margin=10,radius=10) {
+function FlickInput(canvas,label,width,height,margin=10,radius=10,
+    color={
+        bg:{
+            main:{def:"hsl(220deg,10%,50%)",pressed:"hsl(220deg,10%,40%)"},
+            side:{def:"hsl(220deg,10%,30%)",pressed:"hsl(220deg,10%,25%)"},
+            popup:{def:"hsl(220deg,10%,50%)",selected:"hsl(220deg,10%,60%)"},
+        },
+        fg:{
+            main:"hsl(200deg,10%,80%)",
+            side:"hsl(200deg,10%,80%)",
+            popup:"hsl(200deg,10%,80%)"
+        },
+    }
+) {
     const ctx = canvas.getContext("2d");
     canvas.width = width;
     canvas.height = height;
@@ -57,18 +70,21 @@ function FlickInput(canvas,label,width,height,margin=10,radius=10) {
                 for (let j=0;j<rowpos.length;j++) {
                     const btncenter = [(colpos[i][0]+colpos[i][1])/2,(rowpos[j][0]+rowpos[j][1])/2]
                     { // ボタン
-                        ctx.fillStyle = `hsl(250deg,10%,50%)`;
+                        ctx.fillStyle = color.bg.main.def;
                         if (i==pressedbtn[0]&&j==pressedbtn[1]) {
-                            ctx.fillStyle = `hsl(250deg,10%,40%)`;
+                            ctx.fillStyle = color.bg.main.pressed;
                         }
                         if (i==0||i==4) {
-                            ctx.fillStyle = `hsl(250deg,0%,50%)`;
+                            ctx.fillStyle = color.bg.side.def;
+                            if (i==pressedbtn[0]&&j==pressedbtn[1]) {
+                                ctx.fillStyle = color.bg.side.pressed;
+                            }
                         }
                         roundrect(colpos[i],rowpos[j]);
                         ctx.fill();
                         { // 文字
-                            ctx.fillStyle = `hsl(200deg,10%,80%)`;
-                            ctx.font = "40px serif";
+                            ctx.fillStyle = (i==0||i==4)?color.fg.side:color.fg.main;
+                            ctx.font = "35px serif";
                             let box = ctx.measureText(label[j][i][0]);
                             ctx.fillText(label[j][i][0],btncenter[0]-box.width/2,btncenter[1]+40*0.8/2);
                         }
@@ -82,8 +98,8 @@ function FlickInput(canvas,label,width,height,margin=10,radius=10) {
                         const ir = (btnheight*0.1+40);
                         const r = 20;
                         { // ボタン
-                            const popup = `hsl(230deg,10%,50%)`;
-                            const popupselect = `hsl(230deg,10%,60%)`;
+                            const popup = color.bg.popup.def;
+                            const popupselect = color.bg.popup.selected;
                             const popupcenter = [
                                 [btncenter[0],btncenter[1]],
                                 [btncenter[0]-ir,btncenter[1]],
@@ -99,7 +115,7 @@ function FlickInput(canvas,label,width,height,margin=10,radius=10) {
                                 ctx.arc(...popupcenter[k],r,0,Math.PI*2);
                                 ctx.fill();
                                 // 文字
-                                ctx.fillStyle = `hsl(200deg,10%,80%)`;
+                                ctx.fillStyle = color.fg.popup;
                                 ctx.font = "20px serif";
                                 {
                                     let box = ctx.measureText(label[j][i][k]);
