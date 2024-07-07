@@ -69,8 +69,8 @@ function FlickInput(canvas,label,width,height,margin=10,radius=10) {
                         { // 文字
                             ctx.fillStyle = `hsl(200deg,10%,80%)`;
                             ctx.font = "40px serif";
-                            let box = ctx.measureText(label[j*5+i][0]);
-                            ctx.fillText(label[j*5+i][0],btncenter[0]-box.width/2,btncenter[1]+40*0.8/2);
+                            let box = ctx.measureText(label[j][i][0]);
+                            ctx.fillText(label[j][i][0],btncenter[0]-box.width/2,btncenter[1]+40*0.8/2);
                         }
                     }
                 }
@@ -92,7 +92,7 @@ function FlickInput(canvas,label,width,height,margin=10,radius=10) {
                                 [btncenter[0],btncenter[1]+ir],
                             ]
                             for (let k=1;k<5;k++) {
-                                if (label[j*5+i][k]==null) {continue;}
+                                if (label[j][i][k]==null) {continue;}
                                 // 背景
                                 ctx.fillStyle = popupbtn==k?popupselect:popup;
                                 ctx.beginPath();
@@ -102,8 +102,8 @@ function FlickInput(canvas,label,width,height,margin=10,radius=10) {
                                 ctx.fillStyle = `hsl(200deg,10%,80%)`;
                                 ctx.font = "20px serif";
                                 {
-                                    let box = ctx.measureText(label[j*5+i][k]);
-                                    ctx.fillText(label[j*5+i][k],popupcenter[k][0]-box.width/2,popupcenter[k][1]+20*0.8/2);
+                                    let box = ctx.measureText(label[j][i][k]);
+                                    ctx.fillText(label[j][i][k],popupcenter[k][0]-box.width/2,popupcenter[k][1]+20*0.8/2);
                                 }
                             }
                         }
@@ -124,7 +124,7 @@ function FlickInput(canvas,label,width,height,margin=10,radius=10) {
         const p = getPointer(e);
         pressedbtn = false;
         pressedpos = p;
-        for (let i=1;i<4;i++) {
+        for (let i=0;i<5;i++) {
             for (let j=0;j<4;j++) {
                 if (colpos[i][0]<p[0]&&p[0]<colpos[i][1]) {
                     if (rowpos[j][0]<p[1]&&p[1]<rowpos[j][1]) {
@@ -162,7 +162,7 @@ function FlickInput(canvas,label,width,height,margin=10,radius=10) {
     }
     canvas.onpointerup = (e)=>{
         if (pressedbtn!=false) {
-            const event = new CustomEvent("flick", { detail:{btnnum:[pressedbtn,popupbtn],label:[label[pressedbtn[1]*5+pressedbtn[0]][popupbtn]]} });
+            const event = new CustomEvent("flick", { detail:{btnnum:[pressedbtn,popupbtn],label:[label[pressedbtn[1]][pressedbtn[0]][popupbtn]]} });
             canvas.dispatchEvent(event);
         }
         pressedbtn = false;
